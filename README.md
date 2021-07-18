@@ -1,3 +1,3 @@
 # Sensor-Prediction
 Dataset available in following link: https://archive.ics.uci.edu/ml/datasets/Gas%2Bsensors%2Bfor%2Bhome%2Bactivity%2Bmonitoring
-And project.ipym
+And code is available in project.ipynb file given above.
