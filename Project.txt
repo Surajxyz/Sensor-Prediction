@@ -1,0 +1,188 @@
+
+
+
+****** Gas sensors for home activity monitoring Data Set¶ ******
+****** Abstract: 100 recordings of a sensor array under different conditions in
+a home setting: background, wine and banana presentations. The array includes 8
+MOX gas sensors, and humidity and temperature sensors.¶ ******
+In [1]:
+import pandas as pd                        #import pandas libray
+In [2]:
+with open("data1.dat") as f:               # Conversion of data1.dat file into
+data1.csv file
+    with open("data1.csv","w") as f1:
+        for line in f :
+            f1.write(line)
+In [3]:
+data=pd.read_csv("data1.csv",header=None)  # Read file data1.csv and remove
+header of features
+In [4]:
+data.head()                                # Display of top  5 rows without
+headers.
+                                           # Complete data lies in a single
+column.
+Out[4]:
+ _______________________________________________
+|_|0____________________________________________|
+|0|id_time\t_R1_R2_R3_..._______________________|
+|1|0_-0.999750_12.862100_10.368300_10.438300_...|
+|2|0_-0.999472_12.861700_10.368200_10.437500_...|
+|3|0_-0.999194_12.860700_10.368600_10.437000_...|
+|4|0_-0.998916_12.860200_10.368600_10.437000_...|
+In [5]:
+data[
+["id","time","R1","R2","R3","R4","R5","R6","R7","R8","Temperature","Humadity"]]=
+data[0].str.split(expand=True)
+                                           # Split that single column into 12
+features but that 0th column stays.
+In [7]:
+data_new=data.drop([0],axis=1)             # Dropping of 0th column and makes a
+new file named data_new.
+In [10]:
+data_new=data_new.drop(["time"],axis=1)    # Dropping of "time" column.
+In [11]:
+data_new.head()                            # Display of top 5 rows in data_new.
+Out[11]:
+ ________________________________________________________________________________________________________
+|_|id|R1_______|R2_______|R3_______|R4_______|R5_______|R6_______|R7______|R8______|Temperature|Humadity_|
+|0|id|R1_______|R2_______|R3_______|R4_______|R5_______|R6_______|R7______|R8______|Temp.______|Humidity_|
+|1|0_|12.862100|10.368300|10.438300|11.669900|13.493100|13.342300|8.041690|8.739010|26.225700__|59.052800|
+|2|0_|12.861700|10.368200|10.437500|11.669700|13.492700|13.341200|8.041330|8.739080|26.230800__|59.029900|
+|3|0_|12.860700|10.368600|10.437000|11.669600|13.492400|13.340500|8.041010|8.739150|26.236500__|59.009300|
+|4|0_|12.860200|10.368600|10.437000|11.669700|13.492100|13.339800|8.040860|8.739360|26.241600__|58.990500|
+In [12]:
+with open("data2.dat") as f:               #Conversion of data2.dat into
+data2.csv.
+    with open("data2.csv","w") as f1:
+        for line in f :
+            f1.write(line)
+In [13]:
+mtdata=pd.read_csv("data2.csv",header=None)# Reading data2.csv without headers
+and named it as mtdata.
+In [14]:
+mtdata.head()                              # Display of top 5 rows of mtdata
+file.
+Out[14]:
+ __________________________________
+|_|0_______________________________|
+|0|id\tdate\t\tclass\tt0\tdt_______|
+|1|0\t07-04-15\tbanana\t13.49\t1.64|
+|2|1\t07-05-15\twine\t19.61\t0.54__|
+|3|2\t07-06-15\twine\t19.99\t0.66__|
+|4|3\t07-09-15\tbanana\t6.49\t0.72_|
+In [16]:
+mtdata[["id","date","class","t0","td"]]= mtdata[0].str.split(expand=True)
+                                            #Spliting of 0th column into 5 more
+columns.
+In [18]:
+mtdata_new=mtdata.drop(["date","t0","td",0],axis=1)
+                                            #Dropping of "date","initial time"
+(t0),"final time"(td) features from mt_data.
+In [19]:
+mtdata_new.head()                           # Top 5 rows in mtdata_new.
+Out[19]:
+ ___________
+|_|id|class_|
+|0|id|class_|
+|1|0_|banana|
+|2|1_|wine__|
+|3|2_|wine__|
+|4|3_|banana|
+In [20]:
+Data=pd.merge(data_new,mtdata_new,on="id")  # Merging of data_new and
+mtdata_new on column "id" and give Data file.
+In [21]:
+Data.head()
+Out[21]:
+ _______________________________________________________________________________________________________________
+|_|id|R1_______|R2_______|R3_______|R4_______|R5_______|R6_______|R7______|R8______|Temperature|Humadity_|class_|
+|0|id|R1_______|R2_______|R3_______|R4_______|R5_______|R6_______|R7______|R8______|Temp.______|Humidity_|class_|
+|1|0_|12.862100|10.368300|10.438300|11.669900|13.493100|13.342300|8.041690|8.739010|26.225700__|59.052800|banana|
+|2|0_|12.861700|10.368200|10.437500|11.669700|13.492700|13.341200|8.041330|8.739080|26.230800__|59.029900|banana|
+|3|0_|12.860700|10.368600|10.437000|11.669600|13.492400|13.340500|8.041010|8.739150|26.236500__|59.009300|banana|
+|4|0_|12.860200|10.368600|10.437000|11.669700|13.492100|13.339800|8.040860|8.739360|26.241600__|58.990500|banana|
+In [22]:
+Data1=Data.drop([0])                        # Dropping of "id" from Data file
+and convert it into Data1 file.
+In [23]:
+Data1.head()
+Out[23]:
+ _______________________________________________________________________________________________________________
+|_|id|R1_______|R2_______|R3_______|R4_______|R5_______|R6_______|R7______|R8______|Temperature|Humadity_|class_|
+|1|0_|12.862100|10.368300|10.438300|11.669900|13.493100|13.342300|8.041690|8.739010|26.225700__|59.052800|banana|
+|2|0_|12.861700|10.368200|10.437500|11.669700|13.492700|13.341200|8.041330|8.739080|26.230800__|59.029900|banana|
+|3|0_|12.860700|10.368600|10.437000|11.669600|13.492400|13.340500|8.041010|8.739150|26.236500__|59.009300|banana|
+|4|0_|12.860200|10.368600|10.437000|11.669700|13.492100|13.339800|8.040860|8.739360|26.241600__|58.990500|banana|
+|5|0_|12.859500|10.368800|10.437400|11.669900|13.491900|13.339000|8.040870|8.739860|26.246200__|58.973600|banana|
+In [24]:
+x=Data1.drop(["class"],axis=1)              # Assign independent features to x.
+In [25]:
+y=Data1["class"]                            # Assign dependent features to y.
+In [26]:
+from sklearn.linear_model import LogisticRegression
+                                            # Import Logistic regression from
+sklear library.
+In [27]:
+from sklearn.metrics import accuracy_score, confusion_matrix
+In [28]:
+from sklearn.model_selection import train_test_split
+In [29]:
+x_train,x_test,y_train,y_test=train_test_split
+(x,y,test_size=.20,random_state=123)
+                                            # Split of data into train and test
+in the ratio 4:1.
+In [30]:
+lg=LogisticRegression()                     # Application of Logistic
+Regression
+lg.fit(x_train,y_train)
+pred_lg=lg.predict(x_test)                  # Do prediction for x_test data.
+accuracy_score(y_test,pred_lg)              # Calculate accuracy score.
+C:\Users\DELL\Anaconda3\lib\site-packages\sklearn\linear_model\logistic.py:432:
+FutureWarning: Default solver will be changed to 'lbfgs' in 0.22. Specify a
+solver to silence this warning.
+  FutureWarning)
+C:\Users\DELL\Anaconda3\lib\site-packages\sklearn\linear_model\logistic.py:469:
+FutureWarning: Default multi_class will be changed to 'auto' in 0.22. Specify
+the multi_class option to silence this warning.
+  "this warning.", FutureWarning)
+Out[30]:
+0.7336422693340653
+In [32]:
+confusion_matrix(y_test,pred_lg)            # Calculation of confusion matrix
+in logistic regression model.
+Out[32]:
+array([[55635,     0,     0],
+       [    0, 31025, 29840],
+       [  121, 19528, 49650]], dtype=int64)
+****** We first remove the column match problem followed by merging both the
+data sheets and apply logistic regression by splitting whole data in 100:20
+sets and finally we get the accuracy of 0.7336¶ ******
+****** Applying decision tree to get more accurate results¶ ******
+In [34]:
+from sklearn.tree import DecisionTreeClassifier
+                                            # Calling Decision tree.
+In [35]:
+dt=DecisionTreeClassifier()
+In [36]:
+dt.fit(x_train,y_train)
+Out[36]:
+DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=None,
+                       max_features=None, max_leaf_nodes=None,
+                       min_impurity_decrease=0.0, min_impurity_split=None,
+                       min_samples_leaf=1, min_samples_split=2,
+                       min_weight_fraction_leaf=0.0, presort=False,
+                       random_state=None, splitter='best')
+In [37]:
+pred=dt.predict(x_test)                     # Make prediction on x_test data.
+In [38]:
+accuracy_score(pred,y_test)                 # Calculating accuracy score.
+Out[38]:
+0.99989235679417
+In [39]:
+confusion_matrix(pred,y_test)               # Confusion matrix for decision
+tree model.
+Out[39]:
+array([[55635,     0,     0],
+       [    0, 60855,    10],
+       [    0,    10, 69289]], dtype=int64)
+****** Get a accuracy of .9999085 when applying decision tree model.¶ ******
